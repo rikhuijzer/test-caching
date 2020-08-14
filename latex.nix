@@ -7,5 +7,5 @@ let
   };
 in [
   # myTex
-  rclone
+  pkgs.rclone
 ]
