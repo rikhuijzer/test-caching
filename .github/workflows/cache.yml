@@ -19,7 +19,7 @@ jobs:
             ~/nix/store
             ~/nix/bin
         # Using number to enforce fresh cache.
-        key: ${{ runner.os }}-14
+        key: ${{ runner.os }}-15
 
     - name: Install Nix
       uses: cachix/install-nix-action@v10
@@ -45,8 +45,5 @@ jobs:
           sudo cp --force --recursive ~/nix/bin/* $NIX_BIN/
         fi
 
-    - run: which pdflatex
-
-    - name: Check existence of pdflatex
-      run: pdflatex --version
-
+    - name: Check existence of LaTeX
+      run: dvisvgm --version
