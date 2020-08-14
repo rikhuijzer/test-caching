@@ -35,11 +35,9 @@ jobs:
         else
           nix-env --install --file latex.nix
           mkdir -p ~/nix/store
-          mkdir -p ~/sw/bin
-          echo first
+          mkdir -p ~/nix/bin
           sudo cp --force --recursive /nix/store/* ~/nix/store/
           which xdotool
-          echo second
           sudo cp --force --recursive /nix/var/nix/profiles/per-user/runner/profile/bin/* ~/nix/bin/
         fi
 
