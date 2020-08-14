@@ -1,0 +1,44 @@
+name: Test cache
+
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Check cache for Nix and use if found
+      id: cache-nix
+      uses: actions/cache@v2.1.0
+      with:
+        # See https://stackoverflow.com/questions/59269850.
+        path: |
+            "~/nix/store"
+            "~/sw/bin"
+        key: ${{ runner.os }}-nix-store-${{ hashFiles('/nix/store') }}
+
+    - name: Install Nix if not cached
+      if: steps.cache-nix.outputs.cache-hit != 'true'
+      uses: cachix/install-nix-action@v10
+      with:
+          nix_path: nixpkgs=channel:nixos-unstable
+
+    - name: Install LaTeX if not cached
+      env:
+          CACHE_HIT: ${{ steps.cache-nix.outputs.cache-hit }}
+      run: |
+        if [[ "$CACHE_HIT" == 'true' ]]; then
+          sudo cp --verbose --force --recursive ~/nix/store/ /nix/store/
+          sudo cp --verbose --force --recursive ~/sw/bin/ /run/current-system/sw/bin/
+        else
+          nix-env --install --file latex.nix
+          mkdir -p ~/nix/store
+          mkdir -p ~/sw/bin
+          sudo cp --verbose --force --recursive /nix/store/ ~/nix/store/
+          sudo cp --verbose --force --recursive /run/current-system/sw/bin/ ~/sw/bin/
+        fi
+
+    - run: dvisvgm --version
+
