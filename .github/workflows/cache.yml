@@ -19,6 +19,7 @@ jobs:
             "~/nix/bin"
         key: ${{ runner.os }}-nix2
 
+
     - name: Install Nix if not cached
       if: steps.cache-nix.outputs.cache-hit != 'true'
       uses: cachix/install-nix-action@v10
