@@ -9,10 +9,8 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Install Nix
-      uses: cachix/install-nix-action@v10
-      with:
-          nix_path: nixpkgs=channel:nixos-unstable
+    - run: mkdir -p /nix/store
+    - run: mkdir -p /run/current-system/sw/bin
 
     - name: Check cache for Nix and use if found
       id: check-cache
@@ -23,8 +21,15 @@ jobs:
             /run/current-system/sw/bin
         key: ${{ runner.os }}-nix-store
 
+    - name: Install Nix if not cached
+      if: steps.check-cache.outputs.cache-hit != 'true'
+      uses: cachix/install-nix-action@v10
+      with:
+          nix_path: nixpkgs=channel:nixos-unstable
+
     - name: Install LaTeX if not cached
       if: steps.check-cache.outputs.cache-hit != 'true'
       run: nix-env --install --file latex.nix
-    - run: pdflatex --help
+
+    - run: pdflatex --version
 
