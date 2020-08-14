@@ -17,7 +17,7 @@ jobs:
         path: |
             "~/nix/store"
             "~/nix/bin"
-        key: ${{ runner.os }}-nix3
+        key: ${{ runner.os }}-nix4
 
     - name: Install Nix if not cached
       if: steps.cache-nix.outputs.cache-hit != 'true'
@@ -39,7 +39,7 @@ jobs:
           mkdir -p ~/nix/bin
           sudo cp --force --recursive /nix/store/* ~/nix/store/
           which xdotool
-          sudo cp --force --recursive /nix/var/nix/profiles/per-user/runner/profile/bin/* ~/nix/bin/
+          sudo cp --verbose --force --recursive /nix/var/nix/profiles/per-user/runner/profile/bin/* ~/nix/bin/
         fi
 
     - run: which xdotool
