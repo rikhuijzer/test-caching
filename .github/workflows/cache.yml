@@ -16,7 +16,7 @@ jobs:
         # See https://stackoverflow.com/questions/59269850.
         path: |
             "~/nix/store"
-            "~/sw/bin"
+            "~/nix/bin"
         key: ${{ runner.os }}-nix-store-${{ hashFiles('/nix/store') }}
 
     - name: Install Nix if not cached
@@ -31,7 +31,7 @@ jobs:
       run: |
         if [[ "$CACHE_HIT" == 'true' ]]; then
           sudo cp --force --recursive ~/nix/store/* /nix/store/
-          sudo cp --force --recursive ~/sw/bin/* /run/current-system/sw/bin/
+          sudo cp --force --recursive ~/nix/bin/* /nix/var/nix/profiles/per-user/runner/profile/bin/
         else
           nix-env --install --file latex.nix
           mkdir -p ~/nix/store
@@ -40,7 +40,7 @@ jobs:
           sudo cp --force --recursive /nix/store/* ~/nix/store/
           which xdotool
           echo second
-          sudo cp --force --recursive /run/current-system/sw/bin/* ~/sw/bin/
+          sudo cp --force --recursive /nix/var/nix/profiles/per-user/runner/profile/bin/* ~/nix/bin/
         fi
 
     - run: xdotool version
