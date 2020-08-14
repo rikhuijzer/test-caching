@@ -3,7 +3,7 @@
 let
   inherit (nixpkgs) pkgs;
   myTex = with pkgs; texlive.combine {
-    inherit (texlive) scheme-small dvisvgm;
+    inherit (texlive) scheme-basic dvisvgm;
   };
 in [
   # myTex

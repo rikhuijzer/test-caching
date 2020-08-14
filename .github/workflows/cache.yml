@@ -9,7 +9,8 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Check cache for Nix and use if found
+      # Note that this step is also triggered near the end to build the cache.
+    - name: Cache LaTeX
       id: cache-nix
       uses: actions/cache@v2.1.0
       with:
@@ -24,22 +25,24 @@ jobs:
       with:
           nix_path: nixpkgs=channel:nixos-unstable
 
-    - name: Install LaTeX if not cached
+    - name: Install LaTeX
       env:
           CACHE_HIT: ${{ steps.cache-nix.outputs.cache-hit }}
       run: |
-        NIX_BIN=/nix/var/nix/profiles/per-user/runner/profile/bin/
+        NIX_BIN=/nix/var/nix/profiles/per-user/runner/profile/bin
+        NIX_STORE=/nix/store
         if [[ "$CACHE_HIT" != 'true' ]]; then
           nix-env --install --file latex.nix
           mkdir -p ~/nix/store
           mkdir -p ~/nix/bin
-          sudo cp --force --recursive /nix/store/* ~/nix/store/
+          sudo cp --force --recursive $NIX_STORE/* ~/nix/store/
           sudo cp --verbose --force --recursive $NIX_BIN/* ~/nix/bin/
         else
-          sudo mkdir -p /nix/store
+          sudo mkdir -p $NIX_STORE
           sudo mkdir -p $NIX_BIN
-          sudo cp --force --recursive ~/nix/store/* /nix/store/
+          sudo cp --force --recursive ~/nix/store/* $NIX_STORE/
           sudo cp --force --recursive ~/nix/bin/* $NIX_BIN/
         fi
 
-    - run: which xdotool
+    - name: Check existence of pdflatex
+      run: pdflatex --version
