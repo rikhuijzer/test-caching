@@ -1,4 +1,4 @@
-name: Caching Primes
+name: Test cache
 
 on: push
 
@@ -9,16 +9,22 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Cache Primes
-      id: cache-primes
-      uses: actions/cache@v2
+    - name: Check cache for Nix and use if found
+      id: check-cache
+      uses: actions/cache@v2.1
       with:
-        path: prime-numbers
-        key: ${{ runner.os }}-primes
+        path: |
+            /nix/store
+            /run/current-system/sw/bin
+        key: ${{ runner.os }}-nix-store
 
-    - name: Generate Prime Numbers
-      if: steps.cache-primes.outputs.cache-hit != 'true'
-      run: /generate-primes.sh -d prime-numbers
+    - name: Install Nix if not cached
+      if: steps.check-cache.outputs.cache-hit != 'true'
+      uses: cachix/install-nix-action@v10
+      with:
+          nix_path: nixpkgs=channel:nixos-unstable
+    - name: Install LaTeX if not cached
+      if: steps.check-cache.outputs.cache-hit != 'true'
+      run: nix-env --install --file latex.nix
+    - run: pdflatex --help
 
-    - name: Use Prime Numbers
-      run: /primes.sh -d prime-numbers
