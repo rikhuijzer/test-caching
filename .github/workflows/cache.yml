@@ -17,7 +17,7 @@ jobs:
         path: |
             "~/nix/store"
             "~/nix/bin"
-        key: ${{ runner.os }}-nix
+        key: ${{ runner.os }}-nix3
 
     - name: Install Nix if not cached
       if: steps.cache-nix.outputs.cache-hit != 'true'
