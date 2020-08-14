@@ -11,7 +11,7 @@ jobs:
 
     - name: Check cache for Nix and use if found
       id: cache-nix
-      uses: actions/cache@v2.1.0
+      uses: actions/cache@v2
       with:
         # See https://stackoverflow.com/questions/59269850.
         path: |
@@ -40,6 +40,4 @@ jobs:
           which xdotool
           sudo cp --force --recursive /nix/var/nix/profiles/per-user/runner/profile/bin/* ~/nix/bin/
         fi
-
-    - run: xdotool version
 
