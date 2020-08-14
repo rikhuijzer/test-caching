@@ -18,7 +18,7 @@ jobs:
         path: |
             ~/nix/store
             ~/nix/bin
-        key: ${{ runner.os }}-${{ hashFiles('/nix/store') }}
+        key: ${{ runner.os }}-${{ hashFiles('/nix/bin') }}
 
     - name: Install Nix
       uses: cachix/install-nix-action@v10
@@ -46,3 +46,4 @@ jobs:
 
     - name: Check existence of pdflatex
       run: pdflatex --version
+
