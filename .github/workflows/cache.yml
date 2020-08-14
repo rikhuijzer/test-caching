@@ -11,14 +11,15 @@ jobs:
 
     - name: Check cache for Nix and use if found
       id: cache-nix
-      uses: actions/cache@v2
+      uses: actions/cache@v2.1.0
       with:
         # See https://stackoverflow.com/questions/59269850.
         path: |
             ~/nix/store
             ~/nix/bin
-        key: ${{ runner.os }}-nix8
+        key: ${{ runner.os }}-${{ hashFiles('/nix/store') }}
 
+    # Installing it, just to be sure
     - name: Install Nix if not cached
       # if: steps.cache-nix.outputs.cache-hit != 'true'
       uses: cachix/install-nix-action@v10
