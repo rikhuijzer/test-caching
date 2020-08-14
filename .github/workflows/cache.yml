@@ -19,9 +19,7 @@ jobs:
             ~/nix/bin
         key: ${{ runner.os }}-${{ hashFiles('/nix/store') }}
 
-    # Installing it, just to be sure
     - name: Install Nix if not cached
-      # if: steps.cache-nix.outputs.cache-hit != 'true'
       uses: cachix/install-nix-action@v10
       with:
           nix_path: nixpkgs=channel:nixos-unstable
