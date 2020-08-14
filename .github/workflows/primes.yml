@@ -9,8 +9,8 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - run: mkdir -p /nix/store
-    - run: mkdir -p /run/current-system/sw/bin
+    - run: sudo mkdir -p /nix/store
+    - run: sudo mkdir -p /run/current-system/sw/bin
 
     - name: Check cache for Nix and use if found
       id: check-cache
