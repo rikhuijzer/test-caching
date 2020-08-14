@@ -19,7 +19,7 @@ jobs:
             ~/nix/store
             ~/nix/bin
         # Using number to enforce fresh cache.
-        key: ${{ runner.os }}-12
+        key: ${{ runner.os }}-14
 
     - name: Install Nix
       uses: cachix/install-nix-action@v10

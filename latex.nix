@@ -3,9 +3,8 @@
 let
   inherit (nixpkgs) pkgs;
   myTex = with pkgs; texlive.combine {
-    inherit (texlive) scheme-basic pdflatex dvisvgm;
+    inherit (texlive) scheme-basic pdflatex;
   };
 in [
-  # myTex
-  pkgs.xdotool
+  myTex
 ]
