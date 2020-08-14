@@ -7,5 +7,5 @@ let
   };
 in [
   # myTex
-  pkgs.rclone
+  pkgs.xdotool
 ]
