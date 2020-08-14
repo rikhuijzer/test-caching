@@ -17,7 +17,7 @@ jobs:
         path: |
             "~/nix/store"
             "~/sw/bin"
-        key: ${{ runner.os }}-nix-store2-${{ hashFiles('/nix/store') }}
+        key: ${{ runner.os }}-nix-store-${{ hashFiles('/nix/store') }}
 
     - name: Install Nix if not cached
       if: steps.cache-nix.outputs.cache-hit != 'true'
@@ -38,6 +38,7 @@ jobs:
           mkdir -p ~/sw/bin
           echo first
           sudo cp --force --recursive /nix/store/* ~/nix/store/
+          which xdotool
           echo second
           sudo cp --force --recursive /run/current-system/sw/bin/* ~/sw/bin/
         fi
