@@ -19,7 +19,7 @@ jobs:
             ~/nix/bin
         key: ${{ runner.os }}-${{ hashFiles('/nix/store') }}
 
-    - name: Install Nix if not cached
+    - name: Install Nix
       uses: cachix/install-nix-action@v10
       with:
           nix_path: nixpkgs=channel:nixos-unstable
@@ -28,19 +28,18 @@ jobs:
       env:
           CACHE_HIT: ${{ steps.cache-nix.outputs.cache-hit }}
       run: |
+        NIX_BIN=/nix/var/nix/profiles/per-user/runner/profile/bin/
         if [[ "$CACHE_HIT" != 'true' ]]; then
           nix-env --install --file latex.nix
           mkdir -p ~/nix/store
           mkdir -p ~/nix/bin
           sudo cp --force --recursive /nix/store/* ~/nix/store/
-          sudo cp --verbose --force --recursive /nix/var/nix/profiles/per-user/runner/profile/bin/* ~/nix/bin/
-          which xdotool
+          sudo cp --verbose --force --recursive $NIX_BIN/* ~/nix/bin/
         else
           sudo mkdir -p /nix/store
-          sudo mkdir -p /nix/var/nix/profiles/per-user/runner/profile/bin
+          sudo mkdir -p $NIX_BIN
           sudo cp --force --recursive ~/nix/store/* /nix/store/
-          sudo cp --force --recursive ~/nix/bin/* /nix/var/nix/profiles/per-user/runner/profile/bin/
-          which xdotool
+          sudo cp --force --recursive ~/nix/bin/* $NIX_BIN/
         fi
 
     - run: which xdotool
