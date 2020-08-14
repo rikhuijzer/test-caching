@@ -17,7 +17,7 @@ jobs:
         path: |
             "~/nix/store"
             "~/sw/bin"
-        key: ${{ runner.os }}-nix-store-${{ hashFiles('/nix/store') }}
+        key: ${{ runner.os }}-nix-store2-${{ hashFiles('/nix/store') }}
 
     - name: Install Nix if not cached
       if: steps.cache-nix.outputs.cache-hit != 'true'
@@ -30,14 +30,14 @@ jobs:
           CACHE_HIT: ${{ steps.cache-nix.outputs.cache-hit }}
       run: |
         if [[ "$CACHE_HIT" == 'true' ]]; then
-          sudo cp --verbose --force --recursive ~/nix/store/ /nix/store/
-          sudo cp --verbose --force --recursive ~/sw/bin/ /run/current-system/sw/bin/
+          sudo cp --verbose --force --recursive ~/nix/store/* /nix/store/
+          sudo cp --verbose --force --recursive ~/sw/bin/* /run/current-system/sw/bin/
         else
           nix-env --install --file latex.nix
           mkdir -p ~/nix/store
           mkdir -p ~/sw/bin
-          sudo cp --verbose --force --recursive /nix/store/ ~/nix/store/
-          sudo cp --verbose --force --recursive /run/current-system/sw/bin/ ~/sw/bin/
+          sudo cp --verbose --force --recursive /nix/store/* ~/nix/store/
+          sudo cp --verbose --force --recursive /run/current-system/sw/bin/* ~/sw/bin/
         fi
 
     - run: xdotool version
