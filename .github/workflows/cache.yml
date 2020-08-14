@@ -11,7 +11,7 @@ jobs:
 
     - name: Check cache for Nix and use if found
       id: cache-nix
-      uses: actions/cache@v1.0.3
+      uses: actions/cache@v2
       with:
         # See https://stackoverflow.com/questions/59269850.
         path: |
