@@ -37,8 +37,8 @@ jobs:
           sudo cp --verbose --force --recursive /nix/var/nix/profiles/per-user/runner/profile/bin/* ~/nix/bin/
           which xdotool
         else
-          mkdir -p /nix/store
-          mkdir -p /nix/var/nix/profiles/per-user/runner/profile/bin
+          sudo mkdir -p /nix/store
+          sudo mkdir -p /nix/var/nix/profiles/per-user/runner/profile/bin
           ls -ahl ~/nix/bin/
           sudo cp --force --recursive ~/nix/store/* /nix/store/
           sudo cp --force --recursive ~/nix/bin/* /nix/var/nix/profiles/per-user/runner/profile/bin/
