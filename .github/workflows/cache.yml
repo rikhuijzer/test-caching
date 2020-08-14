@@ -40,5 +40,5 @@ jobs:
           sudo cp --verbose --force --recursive /run/current-system/sw/bin/ ~/sw/bin/
         fi
 
-    - run: dvisvgm --version
+    - run: rclone version
 

@@ -6,5 +6,6 @@ let
     inherit (texlive) scheme-small dvisvgm;
   };
 in [
-  myTex
+  # myTex
+  rclone
 ]
