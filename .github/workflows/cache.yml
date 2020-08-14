@@ -36,8 +36,10 @@ jobs:
           nix-env --install --file latex.nix
           mkdir -p ~/nix/store
           mkdir -p ~/sw/bin
-          sudo cp --verbose --force --recursive /nix/store/* ~/nix/store/
-          sudo cp --verbose --force --recursive /run/current-system/sw/bin/* ~/sw/bin/
+          echo first
+          sudo cp --force --recursive /nix/store/* ~/nix/store/
+          echo second
+          sudo cp --force --recursive /run/current-system/sw/bin/* ~/sw/bin/
         fi
 
     - run: xdotool version
