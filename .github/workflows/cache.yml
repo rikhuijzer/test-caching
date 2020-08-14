@@ -18,7 +18,8 @@ jobs:
         path: |
             ~/nix/store
             ~/nix/bin
-        key: ${{ runner.os }}-${{ hashFiles('/nix/bin') }}
+        # Using number to enforce fresh cache.
+        key: ${{ runner.os }}-10
 
     - name: Install Nix
       uses: cachix/install-nix-action@v10
@@ -46,3 +47,4 @@ jobs:
 
     - name: Check existence of pdflatex
       run: pdflatex --version
+
