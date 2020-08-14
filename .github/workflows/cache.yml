@@ -47,3 +47,4 @@ jobs:
 
     - name: Check existence of LaTeX
       run: dvisvgm --version
+
