@@ -17,7 +17,7 @@ jobs:
         path: |
             ~/nix/store
             ~/nix/bin
-        key: ${{ runner.os }}-nix5
+        key: ${{ runner.os }}-nix6
 
     - name: Install Nix if not cached
       if: steps.cache-nix.outputs.cache-hit != 'true'
@@ -29,7 +29,7 @@ jobs:
       env:
           CACHE_HIT: ${{ steps.cache-nix.outputs.cache-hit }}
       run: |
-        if [[ "$CACHE_HIT" == 'false' ]]; then
+        if [[ "$CACHE_HIT" != 'true' ]]; then
           nix-env --install --file latex.nix
           mkdir -p ~/nix/store
           mkdir -p ~/nix/bin
